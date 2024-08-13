@@ -1,0 +1,37 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="header">
+        </div>
+        <div class="content">
+            <p>
+                Hi, <br> <br>
+                I have you signed up for this weekend to make bouquet deliveries! If you have any last minute
+                changes, please text me at 805-689-6431. Also, if you need to pick up late, lmk and I'll leave
+                your stash in the stairwell!
+                <br>
+                We will not be offended if you double count the bouquets, cards and treats! We are
+                human and have been known to make mistakes. If you are missing anything, best to know
+                before you leave flower empower 🙂
+                Thank you for your help!
+            </p>
+            <p>
+            This is your list of addresses (Approx. driving time {{ content.0 }} min):
+            </p>
+            <ul>
+                {%  for recipient in content|slice:"1:" %}
+                    <li><a href={{ recipient.1 }}>{{ recipient.0 }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="footer">
+        </div>
+    </div>
+</body>
+</html>

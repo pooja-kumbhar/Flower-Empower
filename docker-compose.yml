@@ -1,0 +1,26 @@
+version: '3'
+services:
+  backend:
+    image: registry.gitlab.propulsion-home.ch/full-stack/batch-28-may-2024/final-projects/flower-empower:latest
+    ports:
+      - '8000:8000'
+    command: 'sh /scripts/dev.sh'
+    volumes:
+      - ./backend:/backend
+      - ./scripts:/scripts
+    env_file:
+      - ./envs/dev.env
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    env_file:
+      - ./envs/dev.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

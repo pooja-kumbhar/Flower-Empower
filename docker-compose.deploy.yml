@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  backend:
+    image: registry.gitlab.propulsion-home.ch/full-stack/batch-28-may-2024/final-projects/flower-empower:master
+    command: 'sh /scripts/prod.sh'
+    env_file:
+      - ./envs/prod.env
+    depends_on:
+      - postgres
+    volumes:
+      - static_files:/static-files
+      - media_files:/media-files
+      - frontend_build:/frontend/dist
+
+  postgres:
+    image: postgres:latest
+    env_file:
+      - ./envs/prod.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - static_files:/static-files
+      - media_files:/media-files
+      - ./nginx:/etc/nginx/conf.d/
+      - /etc/letsencrypt:/etc/letsencrypt
+      - frontend_build:/frontend_build
+
+volumes:
+  postgres_data:
+  static_files:
+  media_files:
+  frontend_build:
